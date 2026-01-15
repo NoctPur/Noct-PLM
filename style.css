@@ -10,7 +10,7 @@
 
 body {
   background: radial-gradient(circle at top, #111, #000);
-  color: white;
+  color: #fff;
   min-height: 100vh;
 }
 
@@ -18,7 +18,7 @@ body {
    HEADER
 ====================== */
 header {
-  padding: 18px 22px;
+  padding: 18px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,8 +33,8 @@ header {
 }
 
 .brand img {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
 }
 
 /* ======================
@@ -44,31 +44,30 @@ header {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  max-width: 100%;
+  gap: 20px;
 }
 
-/* CHAQUE RADIO = UNE CARTE */
+/* CARTE RADIO */
 .radio {
-  background: linear-gradient(180deg, #1b1b1b, #0f0f0f);
+  background: linear-gradient(180deg, #1a1a1a, #0f0f0f);
   border-radius: 18px;
   padding: 16px;
   display: flex;
   align-items: center;
   gap: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.7);
 }
 
 /* LOGO */
 .radio img {
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
+  width: 70px;
+  height: 70px;
+  border-radius: 14px;
   object-fit: cover;
   flex-shrink: 0;
 }
 
-/* TEXTE + BOUTON */
+/* INFOS */
 .radio-info {
   flex: 1;
   display: flex;
@@ -83,29 +82,31 @@ header {
 
 /* BOUTON */
 .radio button {
-  align-self: flex-start;
+  width: fit-content;
   background: var(--accent, #e10600);
   border: none;
   color: white;
   border-radius: 12px;
-  padding: 8px 16px;
+  padding: 8px 18px;
   font-size: 0.9rem;
   cursor: pointer;
 }
 
 /* ======================
-   PLAYER
+   PLAYER AUDIO (FIX MOBILE)
 ====================== */
 .player {
-  padding: 14px 18px;
-  margin: 24px 20px;
+  margin: 28px 20px 40px;
   background: #0d0d0d;
-  border-radius: 16px;
+  border-radius: 18px;
+  padding: 14px 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.8);
 }
 
+/* IMPORTANT : PAS DE WIDTH 100% */
 audio {
   width: 100%;
-  filter: invert(1);
+  max-width: 100%;
 }
 
 /* ======================
@@ -118,7 +119,7 @@ audio {
     margin: auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 26px;
+    gap: 28px;
   }
 
   .radio {
@@ -145,6 +146,6 @@ audio {
 
   .player {
     max-width: 900px;
-    margin: 30px auto;
+    margin: 40px auto;
   }
 }
