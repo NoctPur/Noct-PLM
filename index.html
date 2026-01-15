@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Soup PLM</title>
+  <title>Noct PLM</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Favicon -->
@@ -47,7 +47,7 @@
 
 <body>
 
-  <h1>🎧 Soup PLM</h1>
+  <h1>🎧 Noct PLM</h1>
 
   <div id="nowPlaying">⏸ Aucune radio en cours</div>
 
@@ -85,7 +85,7 @@
     player.play();
 
     nowPlaying.textContent = "▶ En cours : " + name;
-    document.title = name + " • Soup PLM";
+    document.title = name + " • Noct PLM";
 
     // Change favicon (anti-cache)
     favicon.href = icon + "?v=" + Date.now();
@@ -93,7 +93,7 @@
 
   player.addEventListener('pause', () => {
     nowPlaying.textContent = "⏸ En pause";
-    document.title = "Soup PLM";
+    document.title = "Noct PLM";
     favicon.href = "favicon-default.png";
   });
 </script>
