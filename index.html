@@ -93,19 +93,27 @@
   const favicon = document.getElementById('favicon');
 
   function playRadio(name, url, icon) {
+    // Stop proprement le flux précédent
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+
+    // Nouveau flux
     player.src = url;
+    player.load();   // 🔴 LIGNE CRUCIALE
     player.play();
 
     nowPlaying.textContent = "▶ En cours : " + name;
-    document.title = name + " • Noct PLM";
+    document.title = name + " • Soup PLM";
 
-    // Change favicon (anti-cache)
-    favicon.href = icon + "?v=" + Date.now();
+    if (icon) {
+      favicon.href = icon + "?v=" + Date.now();
+    }
   }
 
   player.addEventListener('pause', () => {
     nowPlaying.textContent = "⏸ En pause";
-    document.title = "Noct PLM";
+    document.title = "Soup PLM";
     favicon.href = "favicon-default.png";
   });
 </script>
