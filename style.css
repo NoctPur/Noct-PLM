@@ -110,8 +110,11 @@ header {
    PLAYER
 ===================== */
 .player {
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   background: #101012;
   padding: 12px 16px;
   border-top: 1px solid rgba(255,255,255,0.08);
@@ -120,6 +123,14 @@ header {
 audio {
   width: 100%;
   max-width: 100%;
+}
+
+.radios {
+  padding-bottom: 90px;
+}
+
+.player {
+  backdrop-filter: blur(12px);
 }
 
 /* =====================
