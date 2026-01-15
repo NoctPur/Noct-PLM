@@ -54,6 +54,17 @@
   <audio id="player" controls></audio>
 
   <div class="radio">
+    <h3>Fun Radio</h3>
+    <button onclick="playRadio(
+      'Fun Radio',
+      'https://icecast.funradio.fr/fun-1-44-128?listen=webGJmqBU59boQ7rZDjrGO5e4',
+      'favicon-fun.png'
+    )">
+      ▶ Écouter
+    </button>
+  </div>
+  
+  <div class="radio">
     <h3>Skyrock PLM</h3>
     <button onclick="playRadio(
       'Skyrock PLM',
@@ -65,16 +76,16 @@
   </div>
 
   <div class="radio">
-    <h3>Fun Radio</h3>
+    <h3>Mouv' RapFR</h3>
     <button onclick="playRadio(
       'Fun Radio',
-      'https://icecast.funradio.fr/fun-1-44-128?listen=webGJmqBU59boQ7rZDjrGO5e4',
-      'favicon-fun.png'
+      'http://icecast.radiofrance.fr/mouvrapfr-hifi.aac',
+      'favicon-mouv'.png'
     )">
       ▶ Écouter
     </button>
   </div>
-
+  
 <script>
   const player = document.getElementById('player');
   const nowPlaying = document.getElementById('nowPlaying');
