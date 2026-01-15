@@ -1,6 +1,6 @@
-/* =========================
+/* ======================
    RESET
-========================= */
+====================== */
 * {
   margin: 0;
   padding: 0;
@@ -10,15 +10,15 @@
 
 body {
   background: radial-gradient(circle at top, #111, #000);
-  color: #fff;
+  color: white;
   min-height: 100vh;
 }
 
-/* =========================
+/* ======================
    HEADER
-========================= */
+====================== */
 header {
-  padding: 20px;
+  padding: 18px 22px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,38 +37,38 @@ header {
   height: 36px;
 }
 
-#nowPlaying {
-  font-size: 0.9rem;
-  opacity: 0.7;
-}
-
-/* =========================
+/* ======================
    RADIOS – MOBILE FIRST
-========================= */
+====================== */
 .radios {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
+  max-width: 100%;
 }
 
+/* CHAQUE RADIO = UNE CARTE */
 .radio {
-  background: linear-gradient(180deg, #1a1a1a, #111);
+  background: linear-gradient(180deg, #1b1b1b, #0f0f0f);
   border-radius: 18px;
-  padding: 14px;
+  padding: 16px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+  gap: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
 }
 
+/* LOGO */
 .radio img {
-  width: 70px;
-  height: 70px;
-  border-radius: 14px;
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
+/* TEXTE + BOUTON */
 .radio-info {
   flex: 1;
   display: flex;
@@ -81,27 +81,26 @@ header {
   font-weight: 500;
 }
 
+/* BOUTON */
 .radio button {
+  align-self: flex-start;
   background: var(--accent, #e10600);
   border: none;
-  color: #fff;
+  color: white;
   border-radius: 12px;
   padding: 8px 16px;
   font-size: 0.9rem;
   cursor: pointer;
 }
 
-/* =========================
+/* ======================
    PLAYER
-========================= */
+====================== */
 .player {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #0d0d0d;
   padding: 14px 18px;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  margin: 24px 20px;
+  background: #0d0d0d;
+  border-radius: 16px;
 }
 
 audio {
@@ -109,17 +108,17 @@ audio {
   filter: invert(1);
 }
 
-/* =========================
+/* ======================
    DESKTOP MODE
-========================= */
-@media (min-width: 768px) {
+====================== */
+@media (min-width: 900px) {
 
   .radios {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 26px;
   }
 
   .radio {
@@ -131,7 +130,7 @@ audio {
   .radio img {
     width: 120px;
     height: 120px;
-    border-radius: 20px;
+    border-radius: 22px;
   }
 
   .radio-info {
@@ -145,9 +144,7 @@ audio {
   }
 
   .player {
-    position: static;
     max-width: 900px;
     margin: 30px auto;
-    border-radius: 20px;
   }
 }
