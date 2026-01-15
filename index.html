@@ -69,6 +69,28 @@
 
   </main>
 
+  <!-- AUDIO PLAYER -->
+  <div class="player">
+  <img id="playerLogo" src="noct-plm.png" alt="Radio">
+  <div class="player-info">
+    <span id="playerTitle">Aucune radio</span>
+  </div>
+
+  <button id="playPause">▶</button>
+
+  <input
+    type="range"
+    id="volume"
+    min="0"
+    max="1"
+    step="0.01"
+    value="1"
+  >
+</div>
+
+<audio id="audioPlayer"></audio>
+
+
   <!-- SCRIPT -->
   <script>
     const audio = document.getElementById('audioPlayer');
