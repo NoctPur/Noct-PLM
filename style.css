@@ -1,10 +1,10 @@
-/* =====================
-   BASE
-===================== */
+/* =========================
+   RESET TOTAL
+========================= */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -14,27 +14,20 @@ body {
   min-height: 100vh;
 }
 
-/* =====================
+/* =========================
    HEADER
-===================== */
+========================= */
 header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: rgba(11,11,13,0.9);
-  backdrop-filter: blur(10px);
   padding: 16px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  background: #0f0f12;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 600;
 }
 
@@ -43,40 +36,42 @@ header {
   height: 32px;
 }
 
-/* =====================
-   RADIOS (MOBILE FIRST)
-===================== */
+/* =========================
+   LISTE DES RADIOS
+========================= */
 .radios {
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+
+  padding: 20px;
+  padding-bottom: 110px; /* espace pour le player */
 }
 
-/* RADIO ITEM */
+/* =========================
+   CARTE RADIO (ANTI-SUPERPOSITION)
+========================= */
 .radio {
-  background: #151517;
-  border-radius: 14px;
-  padding: 14px;
+  position: relative; /* IMPORTANT */
   display: flex;
   align-items: center;
   gap: 14px;
-  transition: background 0.2s ease;
+
+  background: #151517;
+  border-radius: 14px;
+  padding: 14px;
 }
 
-.radio:hover {
-  background: #1b1b1f;
-}
-
-/* LOGO */
+/* LOGO RADIO */
 .radio img {
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 12px;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
-/* INFOS */
+/* TEXTE + BOUTON */
 .radio-info {
   flex: 1;
   display: flex;
@@ -91,61 +86,43 @@ header {
 
 /* BOUTON */
 .radio button {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.25);
-  color: white;
+  background: #ffffff;
+  color: #000000;
+  border: none;
   border-radius: 999px;
-  padding: 6px 16px;
+  padding: 6px 14px;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.radio button:hover {
-  background: white;
-  color: black;
-}
-
-/* =====================
-   PLAYER
-===================== */
+/* =========================
+   PLAYER FIXE EN BAS
+========================= */
 .player {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+
   background: #101012;
+  border-top: 1px solid rgba(255,255,255,0.1);
   padding: 12px 16px;
-  border-top: 1px solid rgba(255,255,255,0.08);
+
+  z-index: 100;
 }
 
 audio {
   width: 100%;
-  max-width: 100%;
 }
 
-.radios {
-  padding-bottom: 90px;
-}
-
-.player {
-  backdrop-filter: blur(12px);
-}
-
-/* =====================
-   DESKTOP
-===================== */
+/* =========================
+   VERSION PC
+========================= */
 @media (min-width: 900px) {
 
   .radios {
-    max-width: 1000px;
-    margin: 40px auto;
-    gap: 18px;
-  }
-
-  .radio {
-    padding: 18px;
+    max-width: 900px;
+    margin: auto;
   }
 
   .radio img {
@@ -157,9 +134,7 @@ audio {
     font-size: 1.05rem;
   }
 
-  .player {
-    max-width: 900px;
-    margin: 30px auto;
-    border-radius: 14px;
+  .radio button {
+    font-size: 0.9rem;
   }
 }
