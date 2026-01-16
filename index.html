@@ -142,7 +142,7 @@
           <!-- Title -->
           <div>
             <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-               PLM
+              Noct PLM
             </h1>
             <p class="text-sm sm:text-base text-gray-500 font-light mt-0.5">
               Écoute tes radios préférées
@@ -178,10 +178,73 @@
       <!-- Radio Cards Grid -->
       <div class="grid gap-4 sm:gap-5" id="radioGrid">
 
+        <!-- Fun Radio -->
+        <div
+          class="radio-card group relative overflow-hidden rounded-2xl sm:rounded-3xl transition-all duration-500 cursor-pointer"
+          data-name="Fun Radio" data-url="https://funradiobe.ice.infomaniak.ch/funradiobe-high.mp3" data-img="fun.png"
+          data-radio="funradio" data-gradient="from-yellow-400 via-orange-500 to-red-500" onclick="playRadio(this)">
+
+          <div
+            class="absolute -inset-px bg-gradient-to-r from-yellow-400/0 via-orange-500/0 to-red-500/0 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 group-hover:from-yellow-400/20 group-hover:via-orange-500/20 group-hover:to-red-500/20 transition-all duration-500 blur-sm">
+          </div>
+
+          <div
+            class="relative bg-dark-800/60 backdrop-blur-2xl border border-white/[0.08] group-hover:border-white/[0.15] group-hover:bg-dark-700/60 transition-all duration-500 rounded-2xl sm:rounded-3xl">
+
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+              <div
+                class="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent animate-shimmer"
+                style="background-size: 200% 100%;"></div>
+            </div>
+
+            <div class="relative p-4 sm:p-5 flex items-center gap-4 sm:gap-5">
+              <div class="relative flex-shrink-0">
+                <div
+                  class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden shadow-xl shadow-black/20 group-hover:shadow-2xl group-hover:shadow-yellow-500/20 transition-all duration-500 group-hover:scale-105">
+                  <img src="fun.png" alt="Fun Radio" class="w-full h-full object-cover object-center">
+
+                  <div
+                    class="equalizer absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/40 hidden items-end justify-center pb-3 gap-1">
+                    <div class="w-1 bg-gradient-to-t from-yellow-500 to-orange-400 rounded-full animate-bar1"></div>
+                    <div class="w-1 bg-gradient-to-t from-orange-500 to-red-400 rounded-full animate-bar2"></div>
+                    <div class="w-1 bg-gradient-to-t from-red-500 to-orange-400 rounded-full animate-bar3"></div>
+                    <div class="w-1 bg-gradient-to-t from-yellow-500 to-orange-400 rounded-full animate-bar4"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex-1 min-w-0">
+                <h3
+                  class="text-lg sm:text-xl font-semibold text-white group-hover:text-white transition-colors truncate">
+                  Fun Radio
+                </h3>
+                <p
+                  class="status text-sm text-gray-500 group-hover:text-gray-400 transition-colors mt-1 flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+                  </svg>
+                  Cliquer pour écouter
+                </p>
+              </div>
+
+              <button
+                class="play-btn relative flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-white text-dark-900 shadow-lg shadow-white/20 group-hover:shadow-xl group-hover:shadow-white/30 transition-all duration-300 group-hover:scale-110">
+                <svg class="play-icon w-5 h-5 sm:w-6 sm:h-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                <svg class="pause-icon hidden w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Skyrock -->
         <div
           class="radio-card group relative overflow-hidden rounded-2xl sm:rounded-3xl transition-all duration-500 cursor-pointer"
-          data-name="Skyrock PLM" data-url="https://icecast.skyrock.net/s/plm_aac_128k" data-img="skyrock.png"
+          data-name="Skyrock" data-url="https://icecast.skyrock.net/s/natio_aac_128k" data-img="skyrock.png"
           data-radio="skyrock" data-gradient="from-red-500 via-orange-500 to-amber-500" onclick="playRadio(this)">
 
           <!-- Card Glow Effect -->
@@ -204,8 +267,8 @@
               <!-- Radio Logo -->
               <div class="relative flex-shrink-0">
                 <div
-                  class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden bg-white/95 shadow-xl shadow-black/20 group-hover:shadow-2xl group-hover:shadow-red-500/20 transition-all duration-500 group-hover:scale-105">
-                  <img src="skyrock.png" alt="Skyrock" class="w-full h-full object-contain p-2 sm:p-3">
+                  class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden shadow-xl shadow-black/20 group-hover:shadow-2xl group-hover:shadow-red-500/20 transition-all duration-500 group-hover:scale-105">
+                  <img src="skyrock.png" alt="Skyrock" class="w-full h-full object-cover object-center">
 
                   <!-- Equalizer Overlay -->
                   <div
@@ -222,7 +285,7 @@
               <div class="flex-1 min-w-0">
                 <h3
                   class="text-lg sm:text-xl font-semibold text-white group-hover:text-white transition-colors truncate">
-                  Skyrock PLM
+                  Skyrock
                 </h3>
                 <p
                   class="status text-sm text-gray-500 group-hover:text-gray-400 transition-colors mt-1 flex items-center gap-2">
@@ -248,14 +311,14 @@
           </div>
         </div>
 
-        <!-- Fun Radio -->
+        <!-- Skyrock PLM -->
         <div
           class="radio-card group relative overflow-hidden rounded-2xl sm:rounded-3xl transition-all duration-500 cursor-pointer"
-          data-name="Fun Radio" data-url="https://icecast.funradio.fr/fun-1-44-128" data-img="fun.png"
-          data-radio="funradio" data-gradient="from-yellow-400 via-orange-500 to-red-500" onclick="playRadio(this)">
+          data-name="Skyrock PLM" data-url="https://icecast.skyrock.net/s/plm_aac_128k" data-img="skyrock-plm.png"
+          data-radio="skyrockplm" data-gradient="from-orange-500 via-red-500 to-pink-500" onclick="playRadio(this)">
 
           <div
-            class="absolute -inset-px bg-gradient-to-r from-yellow-400/0 via-orange-500/0 to-red-500/0 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 group-hover:from-yellow-400/20 group-hover:via-orange-500/20 group-hover:to-red-500/20 transition-all duration-500 blur-sm">
+            class="absolute -inset-px bg-gradient-to-r from-orange-500/0 via-red-500/0 to-pink-500/0 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 group-hover:from-orange-500/20 group-hover:via-red-500/20 group-hover:to-pink-500/20 transition-all duration-500 blur-sm">
           </div>
 
           <div
@@ -270,15 +333,16 @@
             <div class="relative p-4 sm:p-5 flex items-center gap-4 sm:gap-5">
               <div class="relative flex-shrink-0">
                 <div
-                  class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden bg-white/95 shadow-xl shadow-black/20 group-hover:shadow-2xl group-hover:shadow-yellow-500/20 transition-all duration-500 group-hover:scale-105">
-                  <img src="fun.png" alt="Fun Radio" class="w-full h-full object-contain p-2 sm:p-3">
+                  class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden bg-white shadow-xl shadow-black/20 group-hover:shadow-2xl group-hover:shadow-orange-500/20 transition-all duration-500 group-hover:scale-105">
+                  <img src="skyrock-plm.png" alt="Skyrock PLM" class="w-full h-full object-contain"
+                    style="transform: translateY(-3.15%)">
 
                   <div
                     class="equalizer absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/40 hidden items-end justify-center pb-3 gap-1">
-                    <div class="w-1 bg-gradient-to-t from-yellow-500 to-orange-400 rounded-full animate-bar1"></div>
-                    <div class="w-1 bg-gradient-to-t from-orange-500 to-red-400 rounded-full animate-bar2"></div>
-                    <div class="w-1 bg-gradient-to-t from-red-500 to-orange-400 rounded-full animate-bar3"></div>
-                    <div class="w-1 bg-gradient-to-t from-yellow-500 to-orange-400 rounded-full animate-bar4"></div>
+                    <div class="w-1 bg-gradient-to-t from-orange-500 to-red-400 rounded-full animate-bar1"></div>
+                    <div class="w-1 bg-gradient-to-t from-red-500 to-pink-400 rounded-full animate-bar2"></div>
+                    <div class="w-1 bg-gradient-to-t from-pink-500 to-red-400 rounded-full animate-bar3"></div>
+                    <div class="w-1 bg-gradient-to-t from-orange-500 to-red-400 rounded-full animate-bar4"></div>
                   </div>
                 </div>
               </div>
@@ -286,7 +350,7 @@
               <div class="flex-1 min-w-0">
                 <h3
                   class="text-lg sm:text-xl font-semibold text-white group-hover:text-white transition-colors truncate">
-                  Fun Radio
+                  Skyrock PLM
                 </h3>
                 <p
                   class="status text-sm text-gray-500 group-hover:text-gray-400 transition-colors mt-1 flex items-center gap-2">
@@ -333,8 +397,8 @@
             <div class="relative p-4 sm:p-5 flex items-center gap-4 sm:gap-5">
               <div class="relative flex-shrink-0">
                 <div
-                  class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden bg-white/95 shadow-xl shadow-black/20 group-hover:shadow-2xl group-hover:shadow-purple-500/20 transition-all duration-500 group-hover:scale-105">
-                  <img src="mouv.png" alt="Mouv'" class="w-full h-full object-contain p-2 sm:p-3">
+                  class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden shadow-xl shadow-black/20 group-hover:shadow-2xl group-hover:shadow-purple-500/20 transition-all duration-500 group-hover:scale-105">
+                  <img src="mouv.png" alt="Mouv'" class="w-full h-full object-cover object-center">
 
                   <div
                     class="equalizer absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/40 hidden items-end justify-center pb-3 gap-1">
@@ -403,7 +467,7 @@
             <div class="relative flex-shrink-0">
               <div
                 class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl overflow-hidden bg-white shadow-lg shadow-black/30">
-                <img id="playerImg" src="noct-plm.png" alt="" class="w-full h-full object-contain p-2">
+                <img id="playerImg" src="noct-plm-logo.png" alt="" class="w-full h-full object-contain p-2">
               </div>
 
               <!-- Playing Animation Ring -->

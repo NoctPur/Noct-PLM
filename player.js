@@ -1,11 +1,15 @@
 /* =====================================================
    NOCT PLM - Player Controller
-   Smart Expiration Logic
+   Synchronized with Audio Buffer Delay
    ===================================================== */
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  const PROXY_BASE = 'https://api.allorigins.win/get?url=';
+  const PROXY_BASE = 'https://corsproxy.io/?';
+
+  // Audio streams are typically 30-60 seconds behind the FM broadcast
+  // We compensate by looking for songs that started 45 seconds ago
+  const AUDIO_BUFFER_DELAY = 20; // seconds
 
   const audio = document.getElementById('audio');
   const player = document.getElementById('player');
@@ -21,52 +25,116 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const radioAPIs = {
     'skyrock': {
-      url: 'https://skyrock.fm/api/v3/player/onair/plm',
+      url: 'https://onlineradiobox.com/fr/skyrock/playlist/',
+      isHtmlScrape: true,
+      jsonPath: parseOnlineRadioBox
+    },
+    'mouv': {
+      url: 'https://api.radiofrance.fr/livemeta/pull/6',
+      isHtmlScrape: false,
       jsonPath: (data) => {
-        const now = Math.floor(Date.now() / 1000); // Current UNIX timestamp
         let result = null;
+        const now = Math.floor(Date.now() / 1000);
 
-        // 1. Analyze Schedule
-        if (data.schedule && Array.isArray(data.schedule)) {
-          // Sort by start_ts descending (Newest first)
-          const sorted = data.schedule
-            .filter(item => item.type === 'record' && item.info)
-            .sort((a, b) => b.info.start_ts - a.info.start_ts);
+        if (data.steps) {
+          // Get all songs, sorted by start time descending
+          const songs = Object.values(data.steps)
+            .filter(step => step.embedType === 'song')
+            .sort((a, b) => b.start - a.start);
 
-          // Get the absolutely last known track
-          const lastTrack = sorted[0];
+          if (songs.length > 0) {
+            const song = songs[0];
+            result = {
+              title: song.title,
+              artist: song.highlightedArtists?.[0] || song.authors || '',
+              cover: song.visual
+            };
+          } else {
+            // Fallback: show current program name
+            const programs = Object.values(data.steps)
+              .filter(step => step.start <= now && step.end >= now)
+              .sort((a, b) => b.start - a.start);
 
-          if (lastTrack) {
-            // Check validity:
-            // If the track ended more than 4 minutes ago, assume API is lagging or it's talk time
-            const endedAgo = now - lastTrack.info.end_ts;
-
-            if (endedAgo < 240) { // Keep displaying for 4 minutes after theoretical end
+            if (programs.length > 0) {
               result = {
-                title: lastTrack.info.title,
-                artist: lastTrack.artists && lastTrack.artists[0] ? lastTrack.artists[0].name : '',
-                cover: lastTrack.info.cover_big_uri || lastTrack.info.cover_uri
+                title: programs[0].titleConcept || programs[0].title || 'Mouv\'',
+                artist: 'En direct',
+                cover: null
               };
             }
           }
         }
-
-        // 2. Fallback to Show Info if track is too old or missing
-        if (!result && data.on_air_program) {
-          result = {
-            title: data.on_air_program.title, // e.g., "Difool"
-            artist: 'En direct sur Skyrock',
-            cover: data.on_air_program.cover_uri
-          };
-        }
         return result;
       }
     },
-    'mouv': { url: null },
-    'funradio': { url: null }
+    'skyrockplm': {
+      url: 'https://onlineradiobox.com/fr/skyrockplm/playlist/',
+      isHtmlScrape: true,
+      jsonPath: parseOnlineRadioBox
+    },
+    'funradio': {
+      // Fun Radio Belgium RadioPlayer API
+      url: 'https://core-search.radioplayer.cloud/056/qp/v4/onair?rpIds=3',
+      isHtmlScrape: false,
+      jsonPath: (data) => {
+        let result = null;
+        if (data.results && data.results['3']) {
+          // Find the song entry (type PE_E means currently playing)
+          const song = data.results['3'].find(item => item.song === true && item.name);
+          if (song) {
+            result = {
+              title: song.name,
+              artist: song.artistName,
+              cover: song.imageUrl
+            };
+          } else {
+            // Fallback when no song is playing
+            const info = data.results['3'].find(item => item.description);
+            result = {
+              title: info?.description || 'Fun Radio',
+              artist: 'En direct',
+              cover: info?.imageUrl || null
+            };
+          }
+        }
+        return result;
+      }
+    }
   };
 
-  // --- CONTROLS ---
+  // Shared parser function for OnlineRadioBox
+  function parseOnlineRadioBox(html) {
+    let result = null;
+    try {
+      // Parse HTML to find track links
+      // Format: <a href="/track/...">Artist - Title</a>
+      const trackRegex = /<a[^>]*href="\/track\/[^"]*"[^>]*>([^<]+)<\/a>/gi;
+      const matches = [...html.matchAll(trackRegex)];
+
+      if (matches.length > 0) {
+        // First match is the most recent track
+        const trackText = matches[0][1].trim();
+        const parts = trackText.split(' - ');
+
+        if (parts.length >= 2) {
+          result = {
+            title: parts.slice(1).join(' - '), // Title (everything after first dash)
+            artist: parts[0], // Artist (before first dash)
+            cover: null // Will use iTunes fallback
+          };
+        } else {
+          result = {
+            title: trackText,
+            artist: '',
+            cover: null
+          };
+        }
+      }
+    } catch (e) {
+      console.warn('Scraping error:', e);
+    }
+    return result;
+  }
 
   window.playRadio = function (card) {
     const radioId = card.dataset.radio;
@@ -86,12 +154,10 @@ document.addEventListener('DOMContentLoaded', function () {
     currentCard = card;
     isPlaying = true;
 
-    // Visuals
     card.classList.add('ring-2', 'ring-white/50');
     const eq = card.querySelector('.equalizer');
     if (eq) { eq.classList.remove('hidden'); eq.classList.add('flex'); }
 
-    // Audio
     audio.src = url;
     audio.play().catch(e => console.error("Audio error:", e));
 
@@ -101,16 +167,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     updatePlayerVisuals(gradient);
     updatePlayPauseButton(true);
-
-    // Default Info
     updatePlayerInfo(name, 'En direct', img);
 
-    // Metadata Fetch
     if (radioAPIs[radioId] && radioAPIs[radioId].url) {
       updatePlayerInfo(name, 'Chargement...', img);
-      // Initial fetch with slight delay to ensure visuals are set
-      setTimeout(() => fetchMetadataWrapper(radioId, img, name), 100);
-      metadataInterval = setInterval(() => fetchMetadataWrapper(radioId, img, name), 15000);
+      fetchMetadataWrapper(radioId, img, name);
+      metadataInterval = setInterval(() => fetchMetadataWrapper(radioId, img, name), 10000);
     }
   };
 
@@ -139,23 +201,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
     try {
       const controller = new AbortController();
-      const id = setTimeout(() => controller.abort(), 5000);
+      const id = setTimeout(() => controller.abort(), 8000);
 
-      const response = await fetch(PROXY_BASE + encodeURIComponent(config.url) + `&_cb=${Date.now()}`, { signal: controller.signal });
+      // Add cache buster to prevent proxy from returning cached data
+      const cacheBuster = Date.now();
+      const proxyUrl = PROXY_BASE + encodeURIComponent(config.url + '?_cb=' + cacheBuster);
+
+      const response = await fetch(proxyUrl, {
+        signal: controller.signal,
+        headers: { 'Cache-Control': 'no-cache' }
+      });
       clearTimeout(id);
 
-      const wrapper = await response.json();
-      if (!wrapper.contents) return;
+      if (!response.ok) throw new Error('Proxy error');
 
-      const realData = JSON.parse(wrapper.contents);
-      const info = config.jsonPath(realData);
+      let info;
+      if (config.isHtmlScrape) {
+        // For HTML scraping, get text and parse
+        const html = await response.text();
+        info = config.jsonPath(html);
+      } else {
+        // For JSON APIs
+        const data = await response.json();
+        info = config.jsonPath(data);
+      }
 
       if (info && info.title) {
         updatePlayerInfo(info.title, info.artist, info.cover || defaultImg);
         document.title = `🎵 ${info.title} • ${defaultName}`;
         if (!info.cover && info.title) fetchItunesCover(info.title, info.artist);
+      } else {
+        updatePlayerInfo(defaultName, 'En direct', defaultImg);
       }
-    } catch (e) { console.warn('Meta fetch error', e); }
+    } catch (e) {
+      console.warn('Meta fetch error', e);
+      if (playerName.innerText.includes('Chargement')) {
+        updatePlayerInfo(defaultName, 'En direct', defaultImg);
+      }
+    }
   }
 
   async function fetchItunesCover(title, artist) {
@@ -226,7 +309,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Volume
   if (volumeSlider) {
     volumeSlider.addEventListener('input', function () {
       audio.volume = this.value;
@@ -242,5 +324,5 @@ document.addEventListener('DOMContentLoaded', function () {
       '<path d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" stroke="currentColor" stroke-width="2"/>';
   }
 
-  console.log('Noct PLM: Smart Expiration Logic Loaded');
+  console.log('Noct PLM: Audio Buffer Sync Version Loaded');
 });
